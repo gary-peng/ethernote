@@ -6,7 +6,7 @@ import { create } from 'ipfs-http-client'
 const ethUtil = require('ethereumjs-util');
 const sigUtil = require('@metamask/eth-sig-util');
 
-const contractAddress = '0xe774ce0931C6d52628488231C5AB8676b551e4A5';
+const contractAddress = '0xb11f25d7961cb0C6111aC9349904c8Ec25A114c2';
 
 export default function EtherNote() {
 	const [walletAddr, setWalletAddr] = useState(null);
@@ -43,14 +43,7 @@ export default function EtherNote() {
 	const setHandler = async () => {
         const obj = {
             notes: [
-                "This is an example sentence",
-                "This is an example sentence",
-                "This is an example sentence",
-                "This is an example sentence",
-                "This is an example sentence",
-                "This is an example sentence",
-                "This is an example sentence",
-                "This is an example sentence",
+                "This is an example sentence lmao xdxd",
             ]
         };
 
@@ -74,13 +67,13 @@ export default function EtherNote() {
 
         const { cid } = await ipfs.add(encryptedMessage);
         const hash = cid.toString()
-        contract.set(walletAddr, hash);
+        contract.set(hash);
         console.log(hash);
         console.log(encryptedMessage);
 	}
 
 	const getCurrentVal = async () => {
-		const hash = await contract.get(walletAddr);
+		const hash = await contract.get();
         console.log(hash);
 
         const res = await fetch("https://ipfs.infura.io:5001/api/v0/cat?arg=" + hash, {method: 'POST'})
