@@ -1,11 +1,14 @@
 import './App.css';
+import { ChakraProvider, Container } from '@chakra-ui/react'
 import EtherNote from './EtherNote';
 
 function App() {
   return (
-    <div className="App">
+    <ChakraProvider>
+    <Container>
       <EtherNote />
-    </div>
+    </Container>
+    </ChakraProvider>
   );
 }
 
