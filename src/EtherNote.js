@@ -11,14 +11,15 @@ const ethUtil = require('ethereumjs-util');
 const sigUtil = require('@metamask/eth-sig-util');
 
 const contractAddress = '0xb11f25d7961cb0C6111aC9349904c8Ec25A114c2';
-var notes = {notes: [""]};
+// var notes = [];
 var walletAddr = "";
 var contract = null;
 
 export default function EtherNote() {
     const [connected, setConnected] = useState(false);
-    const [currNote, setCurrNote] = useState("")
-    const [currNoteInd, setCurrNoteInd] = useState(0)
+    const [currNoteInd, setCurrNoteInd] = useState(0);
+    const [notes, setNotes] = useState(["New Note"]);
+
 
     const ipfs = create("https://ipfs.infura.io:5001");
 
@@ -49,19 +50,6 @@ export default function EtherNote() {
 	window.ethereum.on('chainChanged', handleChainChange);
 
 	const saveNotes = async () => {
-        const obj = {
-            notes: [
-                "This is an example sentence1",
-                "This is an example sentence2",
-                "This is an example sentence3",
-                "This is an example sentence4",
-                "This is an example sentence5",
-                "This is an example sentence6",
-                "This is an example sentence7",
-                "This is an example sentence8",
-            ]
-        };
-
         const pubKey = await window.ethereum.request({
             method: 'eth_getEncryptionPublicKey',
             params: [walletAddr],
@@ -72,7 +60,7 @@ export default function EtherNote() {
               JSON.stringify(
                 sigUtil.encrypt({
                   publicKey: pubKey,
-                  data: JSON.stringify(notes),
+                  data: JSON.stringify({notes: notes}),
                   version: 'x25519-xsalsa20-poly1305',
                 })
               ),
@@ -100,8 +88,7 @@ export default function EtherNote() {
         })
         
         console.log(decryptedMessage)
-        notes = JSON.parse(decryptedMessage);
-        setCurrNote(notes.notes[0]);
+        setNotes(JSON.parse(decryptedMessage).notes);
 	}
 
     var connectBtn = <Button onClick={connectWallet}>Connect Wallet</Button>;
@@ -110,14 +97,14 @@ export default function EtherNote() {
     }
 
     const handleTextChange = (event) => {
-        notes.notes[currNoteInd] = event.target.value;
-        console.log(notes)
-        setCurrNote(event.target.value)
-    }
+        setNotes((prev) => {
+            const temp = [...prev];
+            temp[currNoteInd] = event.target.value
+            return temp
+        })
 
-    useEffect(() => {
-        setCurrNote(notes.notes[currNoteInd]);
-    });
+        console.log(notes)
+    }
 	
 	return (
         <>
@@ -125,9 +112,9 @@ export default function EtherNote() {
                 {connectBtn}
             </Flex>
             <Flex bg='' direction="column">
-                <NoteSelector titles={notes.notes} setCurrNoteInd={setCurrNoteInd} />
+                <NoteSelector notes={notes} setNotes={setNotes} currNoteInd={currNoteInd} setCurrNoteInd={setCurrNoteInd} />
                 <Textarea 
-                    value={currNote}
+                    value={notes[currNoteInd]}
                     onChange={handleTextChange}
                 />
                 <Button onClick={saveNotes}>Save All Changes</Button>
