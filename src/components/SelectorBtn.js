@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, useRadio, Button } from '@chakra-ui/react';
+import { Flex, Box, useRadio, Button } from '@chakra-ui/react';
 import { CloseIcon } from '@chakra-ui/icons';
 
 export default function SelectorBtn(props) {
@@ -23,7 +23,7 @@ export default function SelectorBtn(props) {
     }
 
     return (   
-        <Box
+        <Flex
             as='label'
             {...checkbox}
             cursor='pointer'
@@ -35,10 +35,18 @@ export default function SelectorBtn(props) {
             }}
             px={5}
             py={3}
+            justify='space-between'
         >
             <input {...input} />
             {title}
-            <Button onClick={deleteNote}><CloseIcon /></Button>
-        </Box>
+            <Button 
+                onClick={deleteNote}
+                bg="transparent"
+                border={null}
+                _hover={{}}
+                _focus={{}}
+                _active={{}}
+            ><CloseIcon /></Button>
+        </Flex>
     );
 }

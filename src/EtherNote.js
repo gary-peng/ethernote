@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react'
+import { Container, Box, Flex, Button, Textarea, Heading} from '@chakra-ui/react'
+import NoteSelector from './components/NoteSelector';
+import TextEdit from './components/TextEdit';
+
 import { ethers } from 'ethers'
 import EtherNote_abi from './contracts/EtherNote_abi.json'
 import { create } from 'ipfs-http-client'
-
-import { Flex, Button, Textarea} from '@chakra-ui/react'
-import NoteSelector from './components/NoteSelector';
-import { getNodeText } from '@testing-library/react'
 
 const ethUtil = require('ethereumjs-util');
 const sigUtil = require('@metamask/eth-sig-util');
 
 const contractAddress = '0xb11f25d7961cb0C6111aC9349904c8Ec25A114c2';
-// var notes = [];
 var walletAddr = "";
 var contract = null;
 
@@ -19,7 +18,6 @@ export default function EtherNote() {
     const [connected, setConnected] = useState(false);
     const [currNoteInd, setCurrNoteInd] = useState(0);
     const [notes, setNotes] = useState(["New Note"]);
-
 
     const ipfs = create("https://ipfs.infura.io:5001");
 
@@ -91,34 +89,21 @@ export default function EtherNote() {
         setNotes(JSON.parse(decryptedMessage).notes);
 	}
 
-    var connectBtn = <Button onClick={connectWallet}>Connect Wallet</Button>;
+    var connectBtn = <Button onClick={connectWallet} borderRadius='0'>Connect Wallet</Button>;
     if (connected) {
-        connectBtn = <Button onClick={connectWallet}>{walletAddr.substring(0, 12)}</Button>
-    }
-
-    const handleTextChange = (event) => {
-        setNotes((prev) => {
-            const temp = [...prev];
-            temp[currNoteInd] = event.target.value
-            return temp
-        })
-
-        console.log(notes)
+        connectBtn = <Button onClick={connectWallet} borderRadius='0'>{walletAddr.substring(0, 12)}</Button>
     }
 	
 	return (
-        <>
-            <Flex bg='' justify='flex-end'>
+        <Container bg="" maxW="1000px" h="100%" py="15px">
+            <Flex justify='space-between'>
+                <Heading as="h1">Ethernote</Heading>
                 {connectBtn}
             </Flex>
-            <Flex bg='' direction="column">
+            <Flex bg="" h="90%" border="1px solid" borderColor="black" boxShadow="6px 6px black" >
                 <NoteSelector notes={notes} setNotes={setNotes} currNoteInd={currNoteInd} setCurrNoteInd={setCurrNoteInd} />
-                <Textarea 
-                    value={notes[currNoteInd]}
-                    onChange={handleTextChange}
-                />
-                <Button onClick={saveNotes}>Save All Changes</Button>
+                <TextEdit notes={notes} setNotes={setNotes} currNoteInd={currNoteInd} saveNotes={saveNotes} currNote={notes[currNoteInd]} />
             </Flex>
-        </>
+        </Container>
 	);
 }

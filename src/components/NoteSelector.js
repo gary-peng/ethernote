@@ -17,8 +17,10 @@ export default function NoteSelector(props) {
         const iStr = i.toString();
         const radio = getRadioProps({ value:iStr })
 
+        const title = el.substring(0, 20).split("\n")[0]
+
         return (
-            <SelectorBtn {...props} key={iStr} title={el} {...radio} />
+            <SelectorBtn {...props} key={iStr} title={title} {...radio} />
         )
     });
 
@@ -34,9 +36,9 @@ export default function NoteSelector(props) {
     }
 
     return (
-        <Flex h="200px" direction="column" overflowY="scroll" {...getRootProps()}>
+        <Flex w="30%" h="100%" direction="column" overflowY="scroll" {...getRootProps()}>
             {noteList}
-            <Button onClick={newNote}><AddIcon /></Button>
+            <Button onClick={newNote} borderRadius='0'><AddIcon /></Button>
         </Flex>
     )
 }
