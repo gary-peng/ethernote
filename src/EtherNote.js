@@ -45,8 +45,10 @@ export default function EtherNote() {
 		window.location.reload();
 	}
 
-	window.ethereum.on('accountsChanged', handleAccountChange);
-	window.ethereum.on('chainChanged', handleChainChange);
+    if (window.ethereum) {
+        window.ethereum.on('accountsChanged', handleAccountChange);
+	    window.ethereum.on('chainChanged', handleChainChange);
+    }
 
 	const saveNotes = async () => {
         const pubKey = await window.ethereum.request({
