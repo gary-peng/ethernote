@@ -20,10 +20,11 @@ export default function TextEdit(props) {
                 w="100%"
                 h="100%"
                 borderRadius='0'
+                border="null"
                 _focus={{}}
                 _hover={{}}
+                resize="none"
             />
-            <Button onClick={props.saveNotes} borderRadius='0'>Save All Changes</Button>
         </Flex>
     );
 }

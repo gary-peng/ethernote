@@ -27,11 +27,11 @@ export default function SelectorBtn(props) {
             as='label'
             {...checkbox}
             cursor='pointer'
-            borderWidth='1px'
+            border="1px solid black"
             _checked={{
-                bg: 'teal.600',
+                bg: 'black',
                 color: 'white',
-                borderColor: 'teal.600',
+                border: null,
             }}
             px={5}
             py={3}

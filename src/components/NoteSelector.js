@@ -36,9 +36,17 @@ export default function NoteSelector(props) {
     }
 
     return (
-        <Flex w="30%" h="100%" direction="column" overflowY="scroll" {...getRootProps()}>
+        <Flex w="30%" h="100%" direction="column" overflowY="auto" borderRight="1px solid black" {...getRootProps()}>
             {noteList}
-            <Button onClick={newNote} borderRadius='0'><AddIcon /></Button>
+            <Button 
+                onClick={newNote} 
+                borderRadius='0'
+                bg="transparent"
+                border={null}
+                _hover={{}}
+                _focus={{}}
+                _active={{}}
+            ><AddIcon /></Button>
         </Flex>
     )
 }
